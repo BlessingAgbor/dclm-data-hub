@@ -1,17 +1,17 @@
 const mongoose = require("mongoose")
+require('dotenv').config()
 const engRAdio = require("../model/engRadio")
 const count = require("../model/listenersModel")
 
 const axios = require("axios");
 const engRadio = require("../model/engRadio");
-const radio_eng_url = "https://stat1.dclm.org/api/nowplaying/1";
-
+const url = process.env.RADIO_ENG-URL
 // Now let's create the functions for create and update
 
 // First we want to create a function that will create when the radio is live and map the data into the database.
 
 const createEntry =async(req, res)=>{
-    const getApi = await axios.get(radio_eng_url)
+    const getApi = await axios.get(url)
     const dataINeed = getApi.data
 
     // now store the parts of the data you need in a varioble so you can use them in the course of this 
@@ -53,7 +53,7 @@ const createEntry =async(req, res)=>{
 }  
 
 const updateEntry= async()=>{
-   const getApi = await axios.get(radio_eng_url);
+   const getApi = await axios.get(url);
    const dataINeed = getApi.data;
 
    // now store the parts of the data you need in a varioble so you can use them in the course of this
@@ -62,13 +62,14 @@ const updateEntry= async()=>{
    const counts = dataINeed.listeners.current;
 
 while(live<counts){
-       const likePost = await count.findByIdAndUpdate(
+       const update = await count.findByIdAndUpdate(
       req.params.post,
       {
         $push: { listeners: counts },
       },
       { new: true }
     );
+    return update
 }
  
 
