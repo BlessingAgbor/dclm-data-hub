@@ -1,0 +1,4 @@
+After we have done this 
+we want create a meas where we can search for a message by the date, by the title, by the events, (GCK, RETREAT, etc..)
+
+Also we want to create a means where users can create events and stream thise events
